@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 300px;
+      background: #0d0d0f;
+      color: #f0ede8;
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1a0a2e 0%, #16213e 60%, #0f3460 100%);
+      padding: 20px 18px 16px;
+      border-bottom: 1px solid #ffffff10;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 120px; height: 120px;
+      background: radial-gradient(circle, #e83f6f33 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .header-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+
+    .header-title span {
+      color: #e83f6f;
+    }
+
+    .header-sub {
+      font-size: 11px;
+      color: #ffffff60;
+      margin-top: 3px;
+      font-weight: 400;
+    }
+
+    .body {
+      padding: 16px;
+    }
+
+    .status-card {
+      background: #1a1a1f;
+      border: 1px solid #ffffff0f;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      min-height: 56px;
+    }
+
+    .status-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #ffffff40;
+      margin-bottom: 5px;
+    }
+
+    #statusText {
+      font-size: 13px;
+      color: #f0ede8cc;
+      line-height: 1.4;
+    }
+
+    #statusText.active { color: #4ecca3; }
+    #statusText.error  { color: #e83f6f; }
+    #statusText.done   { color: #f5c518; }
+
+    .stats-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .stat-box {
+      flex: 1;
+      background: #1a1a1f;
+      border: 1px solid #ffffff0f;
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+    }
+
+    .stat-num.red   { color: #e83f6f; }
+    .stat-num.green { color: #4ecca3; }
+
+    .stat-lbl {
+      font-size: 9px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #ffffff35;
+      margin-top: 4px;
+    }
+
+    .delay-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1a1a1f;
+      border: 1px solid #ffffff0f;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+
+    .delay-label {
+      font-size: 12px;
+      color: #ffffff80;
+    }
+
+    .delay-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .delay-btn {
+      width: 24px; height: 24px;
+      background: #2a2a30;
+      border: 1px solid #ffffff15;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1;
+      transition: background 0.15s;
+    }
+
+    .delay-btn:hover { background: #3a3a42; }
+
+    #delayVal {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .btn-main {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 8px;
+    }
+
+    #startBtn {
+      background: linear-gradient(135deg, #e83f6f, #c0134f);
+      color: #fff;
+      box-shadow: 0 4px 20px #e83f6f40;
+    }
+
+    #startBtn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px #e83f6f60;
+    }
+
+    #startBtn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    #stopBtn {
+      background: #1a1a1f;
+      border: 1px solid #ffffff15;
+      color: #ffffff70;
+    }
+
+    #stopBtn:hover:not(:disabled) {
+      background: #2a2a30;
+      color: #fff;
+    }
+
+    #stopBtn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .notice {
+      font-size: 10px;
+      color: #ffffff30;
+      text-align: center;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #4ecca3;
+      margin-right: 5px;
+      vertical-align: middle;
+      animation: pulse 1.4s infinite;
+    }
+
+    .dot.red { background: #e83f6f; animation: none; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-title">FB Group <span>Auto-Leave</span></div>
+  <div class="header-sub">Bulk leave Facebook groups automatically</div>
+</div>
+
+<div class="body">
+
+  <div class="status-card">
+    <div class="status-label">Status</div>
+    <div id="statusText">Ready — open facebook.com/groups/joins to begin</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num green" id="leftCount">0</div>
+      <div class="stat-lbl">Left</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num red" id="errorCount">0</div>
+      <div class="stat-lbl">Errors</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="totalCount">—</div>
+      <div class="stat-lbl">Total</div>
+    </div>
+  </div>
+
+  <div class="delay-row">
+    <span class="delay-label">Delay between leaves</span>
+    <div class="delay-controls">
+      <button class="delay-btn" id="delayMinus">−</button>
+      <span id="delayVal">3s</span>
+      <button class="delay-btn" id="delayPlus">+</button>
+    </div>
+  </div>
+
+  <button class="btn-main" id="startBtn">▶ START LEAVING GROUPS</button>
+  <button class="btn-main" id="stopBtn" disabled>■ STOP</button>
+
+  <p class="notice">Make sure you're on the Facebook Groups page.<br>The extension will click through each group automatically.</p>
+
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
